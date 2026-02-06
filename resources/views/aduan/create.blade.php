@@ -1,267 +1,257 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Form Aduan</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kirim Aduan & Aspirasi - Dinkes Sumenep</title>
   <style>
-    :root{
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted:#64748b;
-      --border:#e2e8f0;
-      --focus:#2563eb;
-      --danger:#dc2626;
-      --dangerBg:#fee2e2;
-      --success:#059669;
-      --successBg:#d1fae5;
-      --shadow: 0 20px 50px rgba(15,23,42,.08);
-      --radius: 16px;
+    :root {
+      --primary: #059669; /* Hijau Kesehatan */
+      --primary-hover: #047857;
+      --bg-light: #f8fafc;
+      --error: #dc2626;
     }
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(37,99,235,.18), transparent 60%),
-        radial-gradient(900px 500px at 110% 10%, rgba(16,185,129,.14), transparent 55%),
-        var(--bg);
-      line-height:1.45;
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-light);
+      margin: 0;
+      padding: 0;
+      color: #334155;
+      line-height: 1.6;
     }
 
-    .wrap{
-      max-width: 820px;
-      margin: 48px auto;
-      padding: 0 18px;
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
-    .header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:16px;
+    /* Header Branding */
+    .branding {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .branding img { height: 70px; margin-bottom: 10px; }
+    .branding h1 { margin: 0; font-size: 22px; color: #1e293b; text-transform: uppercase; }
+    .branding p { margin: 5px 0 0; color: #64748b; font-size: 14px; }
+
+    /* Card Wrapper */
+    .form-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-top: 6px solid var(--primary);
     }
 
-    .title{
-      margin:0;
-      font-size: 28px;
-      letter-spacing: -0.02em;
-    }
-    .subtitle{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:14px;
-    }
+    h2 { margin-top: 0; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
+    /* Alert Success/Error */
+    .alert { padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; }
+    .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-    .notice{
-      border-radius: 14px;
+    /* Form Styling */
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: #1e293b; }
+    
+    input[type="text"], 
+    input[type="tel"], 
+    select, 
+    textarea {
+      width: 100%;
       padding: 12px 14px;
-      margin-bottom: 14px;
-      border:1px solid transparent;
-      font-size:14px;
-    }
-    .notice.success{
-      background:var(--successBg);
-      border-color: rgba(5,150,105,.25);
-      color:#065f46;
-    }
-    .notice.error{
-      background:var(--dangerBg);
-      border-color: rgba(220,38,38,.25);
-      color:#7f1d1d;
-    }
-    .notice ul{
-      margin:8px 0 0 18px;
-      padding:0;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      outline: none;
     }
 
-    form{ margin-top: 10px; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    @media (max-width: 720px){
-      .grid{ grid-template-columns: 1fr; }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
     }
 
-    .field{ display:flex; flex-direction:column; gap:6px; }
-    label{
-      font-size: 13px;
+    small { display: block; margin-top: 6px; color: #64748b; font-size: 12px; }
+
+    /* Button Styling */
+    .btn-lokasi {
+      background: #fff;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 8px;
       font-weight: 600;
-      color:#0b1220;
-    }
-    .req{
-      color: var(--danger);
-      font-weight: 700;
-      margin-left: 4px;
-    }
-    .hint{
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 2px;
-    }
-
-    input, select, textarea{
-      width:100%;
-      border:1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      background:#fff;
-      outline:none;
-      transition: border-color .15s ease, box-shadow .15s ease;
-    }
-    textarea{ resize: vertical; min-height: 120px; }
-
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(37,99,235,.55);
-      box-shadow: 0 0 0 4px rgba(37,99,235,.14);
-    }
-
-    .row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding: 12px 12px;
-      border:1px solid var(--border);
-      border-radius: 14px;
-      background: #fbfdff;
-    }
-    .row .rowText{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-    .row .rowTitle{
-      font-weight:700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-size: 13px;
+      transition: 0.2s;
     }
-    .row .rowDesc{
-      font-size:12px;
-      color:var(--muted);
-    }
+    .btn-lokasi:hover { background: #f0fdf4; }
 
-    /* Toggle */
-    .toggle{
-      position:relative;
-      width: 52px;
-      height: 30px;
-      border-radius: 999px;
-      background: #e5e7eb;
-      border:1px solid var(--border);
-      cursor:pointer;
-      flex: 0 0 auto;
-      transition: background .2s ease;
-    }
-    .toggle[data-on="1"]{
-      background: rgba(37,99,235,.25);
-      border-color: rgba(37,99,235,.35);
-    }
-    .knob{
-      position:absolute;
-      top: 3px;
-      left: 3px;
-      width: 24px;
-      height: 24px;
-      border-radius: 999px;
-      background:#fff;
-      box-shadow: 0 8px 18px rgba(15,23,42,.12);
-      transition: transform .2s ease;
-    }
-    .toggle[data-on="1"] .knob{
-      transform: translateX(22px);
-    }
-
-    .actions{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--border);
-    }
-    .privacy{
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    button{
-      border:0;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 14px;
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: 700;
-      cursor:pointer;
-      background: #2563eb;
-      color:#fff;
-      box-shadow: 0 14px 30px rgba(37,99,235,.22);
-      transition: transform .05s ease, filter .15s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
     }
-    button:hover{ filter: brightness(1.03); }
-    button:active{ transform: translateY(1px); }
+    .btn-submit:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
+    /* Emergency Section */
+    #field-ambulans {
       background: #f1f5f9;
-      border:1px solid var(--border);
-      font-size: 12px;
-      color:#0f172a;
+      border-left: 4px solid #3b82f6;
     }
 
-    /* File input nicer */
-    input[type="file"]{
-      padding: 8px 10px;
-      background:#fff;
+    .btn-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
     }
+
+    @media (max-width: 640px) {
+      .form-card { padding: 20px; }
+      .container { margin: 20px auto; }
+    }
+
+    /* =========================
+   RESPONSIVE ENHANCEMENTS
+   ========================= */
+
+.form-card{
+  overflow: hidden; /* biar aman kalau ada elemen melebar */
+}
+
+/* bikin beberapa baris form bisa 2 kolom di desktop */
+.form-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* input file biar rapi */
+input[type="file"]{
+  width:100%;
+  padding: 10px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 10px;
+  background:#fff;
+}
+
+/* bar untuk maps */
+.maps-row{
+  display:flex;
+  gap:10px;
+  align-items: stretch;
+}
+.maps-row input{
+  flex: 1;
+  min-width: 0;
+}
+.maps-row button{
+  flex: 0 0 auto;
+}
+
+/* card lebih enak di tablet */
+@media (max-width: 900px){
+  .container{ max-width: 760px; }
+}
+
+/* mobile */
+@media (max-width: 640px){
+  .container{
+    margin: 18px auto;
+    padding: 0 14px;
+  }
+
+  .branding img{ height: 58px; }
+  .branding h1{ font-size: 18px; }
+  .branding p{ font-size: 12px; }
+
+  .form-card{
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  h2{ font-size: 18px; }
+
+  /* grid jadi 1 kolom */
+  .form-grid{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* maps input + tombol jadi ke bawah */
+  .maps-row{
+    flex-direction: column;
+  }
+  .btn-lokasi{
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+  }
+
+  .btn-submit{
+    font-size: 15px;
+    padding: 13px;
+  }
+
+  textarea{ min-height: 110px; }
+}
+
+/* super kecil */
+@media (max-width: 360px){
+  .form-card{ padding: 16px; }
+  input[type="text"], input[type="tel"], select, textarea{
+    padding: 11px 12px;
+  }
+}
+
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div>
-        <h2 class="title">Form Aduan</h2>
-        <p class="subtitle">Sampaikan laporan Anda dengan jelas. Tim akan memproses sesuai prioritas.</p>
-      </div>
-      <div class="pill" id="priorityPill">Prioritas: Normal</div>
+  <div class="container">
+    <div class="branding">
+      <img src="{{ asset('image/logo.jpeg') }}" alt="Logo Sumenep">
+      <h1>Dinas Kesehatan</h1>
+      <p>Kabupaten Sumenep</p>
     </div>
 
-    <div class="card">
+    <div class="form-card">
+      <h2>📩 Formulir Aduan & Saran</h2>
+      <p style="font-size: 13px; color: #64748b; margin-bottom: 25px;">
+        Gunakan form ini untuk menyampaikan keluhan pelayanan atau kebutuhan darurat medis.
+      </p>
 
       @if(session('success'))
-        <div class="notice success">
-          {{ session('success') }}
+        <div class="alert alert-success">
+          <b>Berhasil!</b> {{ session('success') }}
         </div>
       @endif
 
       @if($errors->any())
-        <div class="notice error">
-          <strong>Periksa kembali input Anda:</strong>
-          <ul>
+        <div class="alert alert-error">
+          <ul style="margin:0; padding-left:18px;">
             @foreach($errors->all() as $e)
               <li>{{ $e }}</li>
             @endforeach
@@ -272,126 +262,116 @@
       <form method="POST" action="{{ route('aduan.store') }}" enctype="multipart/form-data">
         @csrf
 
-        <div class="grid">
-          <div class="field">
-            <label>Nama Pelapor <span class="req">*</span></label>
-            <input name="nama_pelapor" value="{{ old('nama_pelapor') }}" placeholder="Contoh: Budi Santoso" autocomplete="name">
-          </div>
+       <div class="form-grid">
+  <div class="form-group">
+    <label>Nama Pelapor *</label>
+    <input type="text" name="nama_pelapor" value="{{ old('nama_pelapor') }}" placeholder="Masukkan nama lengkap Anda" required>
+  </div>
 
-          <div class="field">
-            <label>WA (opsional)</label>
-            <input name="wa" value="{{ old('wa') }}" placeholder="Contoh: 08xxxxxxxxxx" inputmode="numeric" autocomplete="tel">
-            <div class="hint">Biar kami bisa menghubungi Anda lebih cepat.</div>
-          </div>
-        </div>
+  <div class="form-group">
+    <label>Nomor WhatsApp *</label>
+    <input type="tel" name="wa" value="{{ old('wa') }}" placeholder="08xxxxxxxxxx" required>
+    <small>Admin akan menghubungi Anda melalui nomor ini. Pastikan nomor anda benar</small>
+  </div>
+</div>
 
-        <!-- Darurat toggle (backend tetap pakai select) -->
-        <div style="margin-top:14px;">
-          <div class="row">
-            <div class="rowText">
-              <div class="rowTitle">Darurat <span class="req">*</span></div>
-              <div class="rowDesc">Aktifkan jika butuh penanganan segera.</div>
-            </div>
 
-            <div class="toggle" id="daruratToggle" role="switch" aria-checked="false" tabindex="0" data-on="0">
-              <div class="knob"></div>
-            </div>
-          </div>
-
-          <!-- select tetap ada untuk kompatibilitas request lama -->
-          <select id="darurat" name="darurat" style="display:none;">
-            <option value="0" {{ old('darurat', '0') === "0" ? 'selected' : '' }}>Tidak</option>
-            <option value="1" {{ old('darurat') === "1" ? 'selected' : '' }}>Ya</option>
+        <div class="form-group">
+          <label>Apakah Ini Darurat? *</label>
+          <select id="darurat" name="darurat" required>
+            <option value="0" {{ old('darurat', '0') === '0' ? 'selected' : '' }}>Bukan Darurat (Kritik/Saran)</option>
+            <option value="1" {{ old('darurat', '0') === '1' ? 'selected' : '' }}>YA (Gawat Darurat)</option>
           </select>
         </div>
 
-        <div class="grid" style="margin-top:14px;">
-          <div class="field">
-            <label>Kategori <span class="req">*</span></label>
-            <select id="kategori" name="kategori"></select>
-            <div class="hint" id="kategoriHint">Kategori akan menyesuaikan pilihan darurat.</div>
+        <div class="form-group">
+          <label>Kategori *</label>
+          <select id="kategori" name="kategori" required></select>
+        </div>
+
+        <div id="field-ambulans" style="margin-bottom:20px; display:none; padding:15px; border-radius:10px;">
+          <label>🚑 Pilih Ambulans Terdekat *</label>
+          <select id="ambulans_select" name="ambulans_id" style="margin-top:5px;"></select>
+          
+          <div style="margin-top:15px;">
+            <label>Nomor Telepon Ambulans</label>
+            <input id="ambulans_phone" type="text" name="no_ambulans" value="{{ old('no_ambulans') }}" readonly style="background:#fff;">
           </div>
 
-          <div class="field">
-            <label>Lokasi <span class="req">*</span></label>
-            <input name="lokasi" value="{{ old('lokasi') }}" placeholder="Contoh: Puskesmas A, Lantai 2" autocomplete="street-address">
+          <div style="margin-top:15px;">
+            <a id="call_ambulans" href="#" class="btn-call" style="opacity:.6; pointer-events:none;">
+              📞 Hubungi Sekarang
+            </a>
           </div>
         </div>
 
-        <div class="field" style="margin-top:14px;">
-          <label>Isi Aduan <span class="req">*</span></label>
-          <textarea name="isi_aduan" rows="5" placeholder="Jelaskan kejadian, waktu, dan detail yang relevan...">{{ old('isi_aduan') }}</textarea>
-          <div class="hint">Tips: tulis kronologi singkat + apa yang Anda butuhkan.</div>
+      <div class="maps-row" style="margin-bottom:8px;">
+  <input type="text" name="maps_link" id="maps_link" placeholder="Link Google Maps" value="{{ old('maps_link') }}">
+  <button type="button" id="btnLokasi" class="btn-lokasi">
+    📍 GPS Saya
+  </button>
+</div>
+
+          <small id="lokasiStatus">Khusus darurat, sangat disarankan klik "GPS Saya".</small>
         </div>
 
-        <div class="field" style="margin-top:14px;">
-          <label>Lampiran (jpg/png/pdf, opsional)</label>
-          <input type="file" name="lampiran" accept=".jpg,.jpeg,.png,.pdf">
-          <div class="hint">Maksimal ukuran file sesuai aturan server Anda.</div>
+        <div class="form-group">
+          <label>Alamat Lengkap / Lokasi Kejadian *</label>
+          <input name="lokasi" id="lokasi" placeholder="Contoh: Jl. Trunojoyo No. 10, depan Puskesmas" value="{{ old('lokasi') }}" required>
         </div>
 
-        <div class="actions">
-          <div class="privacy">Dengan mengirim, Anda menyetujui data digunakan untuk tindak lanjut aduan.</div>
-          <button type="submit" id="submitBtn">
-            Kirim Aduan
-            <span aria-hidden="true">→</span>
-          </button>
+        <div class="form-group">
+          <label>Isi Laporan / Pesan *</label>
+          <textarea name="isi_aduan" rows="4" placeholder="Tuliskan detail aduan atau bantuan yang dibutuhkan..." required>{{ old('isi_aduan') }}</textarea>
         </div>
+
+        <div class="form-group">
+          <label>Lampiran Foto / Bukti *</label>
+          <input type="file" name="lampiran" accept=".jpg,.jpeg,.png,.pdf" required style="font-size: 13px;">
+          <small>Maksimal ukuran file 2MB (JPG, PNG, atau PDF).</small>
+        </div>
+
+        <button type="submit" class="btn-submit">KIRIM LAPORAN SEKARANG</button>
       </form>
     </div>
+
+    <p style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 30px;">
+      &copy; 2024 Dinas Kesehatan Kabupaten Sumenep. All Rights Reserved.
+    </p>
   </div>
 
   <script>
   (function () {
     const daruratEl = document.getElementById('darurat');
     const kategoriEl = document.getElementById('kategori');
+    const ambulansWrap = document.getElementById('field-ambulans');
+    const ambulansSelect = document.getElementById('ambulans_select');
+    const ambulansPhone = document.getElementById('ambulans_phone');
+    const callBtn = document.getElementById('call_ambulans');
 
-    const toggle = document.getElementById('daruratToggle');
-    const pill = document.getElementById('priorityPill');
-    const kategoriHint = document.getElementById('kategoriHint');
-
-    // kategori normal (darurat = tidak)
     const kategoriNormal = [
       { value: '', label: '-- Pilih Kategori --' },
-      { value: 'fasilitas', label: 'Fasilitas' },
-      { value: 'tenaga kerja', label: 'Tenaga Kerja' },
-      { value: 'kelengkapan obat', label: 'Kelengkapan Obat' },
       { value: 'pelayanan kesehatan', label: 'Pelayanan Kesehatan' },
+      { value: 'fasilitas', label: 'Fasilitas Kesehatan' },
+      { value: 'tenaga kerja', label: 'Petugas/Tenaga Medis' },
+      { value: 'kelengkapan obat', label: 'Stok & Kelengkapan Obat' },
+      { value: 'lainnya', label: 'Lain-lain' },
     ];
 
-    // kategori darurat (darurat = ya)
     const kategoriDarurat = [
-      { value: '', label: '-- Pilih Kategori Darurat --' },
-      { value: 'kecelakaan', label: 'Kecelakaan' },
-      { value: 'butuh ambulans', label: 'Butuh Ambulans' },
-      { value: 'gawat darurat', label: 'Gawat Darurat' },
+      { value: '', label: '-- Pilih Jenis Kondisi Darurat --' },
+      { value: 'kecelakaan', label: 'Kecelakaan Lalu Lintas' },
+      { value: 'butuh ambulans', label: 'Penjemputan Pasien (Ambulans)' },
+      { value: 'gawat darurat medis', label: 'Gawat Darurat Medis (Serangan Jantung/Lainnya)' },
+      { value: 'keracunan massal', label: 'Kejadian Keracunan Massal' },
       { value: 'bencana', label: 'Bencana / Evakuasi' },
-      { value: 'lainnya darurat', label: 'Lainnya (Darurat)' },
     ];
 
     const oldKategori = @json(old('kategori', ''));
-    const oldDarurat = @json(old('darurat', '0'));
-
-    function setToggle(isOn){
-      toggle.dataset.on = isOn ? "1" : "0";
-      toggle.setAttribute('aria-checked', isOn ? 'true' : 'false');
-
-      // sync ke select (biar backend tetap sama)
-      daruratEl.value = isOn ? '1' : '0';
-
-      // pill info
-      pill.textContent = isOn ? 'Prioritas: Darurat' : 'Prioritas: Normal';
-
-      // hint kategori
-      kategoriHint.textContent = isOn
-        ? 'Pilih kategori darurat agar penanganan lebih cepat.'
-        : 'Kategori akan menyesuaikan pilihan darurat.';
-    }
 
     function renderKategori() {
       const isDarurat = daruratEl.value === '1';
       const data = isDarurat ? kategoriDarurat : kategoriNormal;
-
       kategoriEl.innerHTML = '';
       data.forEach(opt => {
         const o = document.createElement('option');
@@ -399,28 +379,74 @@
         o.textContent = opt.label;
         kategoriEl.appendChild(o);
       });
-
-      const exists = data.some(x => x.value === oldKategori);
-      kategoriEl.value = exists ? oldKategori : '';
+      kategoriEl.value = data.some(x => x.value === oldKategori) ? oldKategori : '';
     }
 
-    function toggleClick(){
-      const next = toggle.dataset.on !== "1";
-      setToggle(next);
-      renderKategori();
+    const ambulansList = [
+      { id: '', nama: '-- Pilih Puskesmas Terdekat --', phone: '' },
+      { id: 'puskesmas_sumenep', nama: 'Ambulans Puskesmas Sumenep', phone: '6287765312695' },
+      { id: 'puskesmas_kalianget', nama: 'Ambulans Puskesmas Kalianget', phone: '628111222333' },
+      { id: 'puskesmas_gapura', nama: 'Ambulans Puskesmas Gapura', phone: '628555666777' },
+    ];
+
+    const oldAmbulansId = @json(old('ambulans_id', ''));
+
+    function renderAmbulans() {
+      ambulansSelect.innerHTML = '';
+      ambulansList.forEach(a => {
+        const o = document.createElement('option');
+        o.value = a.id;
+        o.textContent = a.nama;
+        ambulansSelect.appendChild(o);
+      });
+      ambulansSelect.value = ambulansList.some(x => x.id === oldAmbulansId) ? oldAmbulansId : '';
+      updateAmbulansNumber(ambulansSelect.value);
     }
 
-    toggle.addEventListener('click', toggleClick);
-    toggle.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        toggleClick();
+    function updateAmbulansNumber(selectedId) {
+      const item = ambulansList.find(x => x.id === selectedId);
+      const phone = item && item.phone ? item.phone : '';
+      ambulansPhone.value = phone;
+      if (phone) {
+        callBtn.href = 'tel:' + phone;
+        callBtn.style.opacity = '1';
+        callBtn.style.pointerEvents = 'auto';
+      } else {
+        callBtn.style.opacity = '0.6';
+        callBtn.style.pointerEvents = 'none';
       }
+    }
+
+    daruratEl.addEventListener('change', function () {
+      renderKategori();
+      const isDarurat = this.value === '1';
+      ambulansWrap.style.display = isDarurat ? 'block' : 'none';
+      ambulansSelect.required = isDarurat;
     });
 
-    // initial state dari Laravel
-    setToggle(String(oldDarurat) === "1");
+    ambulansSelect.addEventListener('change', function () {
+      updateAmbulansNumber(this.value);
+    });
+
     renderKategori();
+    renderAmbulans();
+
+    // Geolocation
+    const btnLokasi = document.getElementById('btnLokasi');
+    btnLokasi.addEventListener('click', function () {
+      if (!navigator.geolocation) return alert('Browser tidak mendukung lokasi');
+      
+      btnLokasi.textContent = '⏳ Mencari...';
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        const link = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+        document.getElementById('maps_link').value = link;
+        document.getElementById('lokasiStatus').textContent = '✅ Lokasi berhasil dikunci.';
+        btnLokasi.textContent = '📍 GPS Saya';
+      }, function() {
+        alert('Gagal mengambil lokasi. Pastikan izin lokasi aktif.');
+        btnLokasi.textContent = '📍 GPS Saya';
+      });
+    });
   })();
   </script>
 </body>

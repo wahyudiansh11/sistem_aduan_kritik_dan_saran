@@ -1,295 +1,258 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Status Aduan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Status Aduan #{{ $aduan->kode_tiket }} - Dinkes Sumenep</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
   <style>
-    :root{
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted:#64748b;
-      --border:#e2e8f0;
-      --focus:#2563eb;
-
-      --shadow: 0 20px 50px rgba(15,23,42,.08);
-      --radius: 16px;
-
-      --success:#059669; --successBg:#d1fae5;
-      --warn:#b45309;    --warnBg:#fef3c7;
-      --info:#0ea5e9;    --infoBg:#e0f2fe;
-      --danger:#dc2626;  --dangerBg:#fee2e2;
-      --neutralBg:#f1f5f9;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(37,99,235,.18), transparent 60%),
-        radial-gradient(900px 500px at 110% 10%, rgba(16,185,129,.14), transparent 55%),
-        var(--bg);
-      line-height:1.45;
+    :root {
+      --green: #0b3d2e;
+      --green2: #059669; /* Emerald Green */
+      --soft-bg: #f0fdf4;
+      --shadow: 0 10px 25px rgba(0,0,0,0.05);
+      --radius: 20px;
     }
 
-    .wrap{
-      max-width: 900px;
-      margin: 48px auto;
-      padding: 0 18px;
+    body {
+      background-color: #f8fafc;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #334155;
     }
 
-    .header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:16px;
-    }
-    .title{
-      margin:0;
-      font-size: 28px;
-      letter-spacing: -0.02em;
-    }
-    .subtitle{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:14px;
+    /* Header Branding */
+    .branding-bar {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 0;
+      margin-bottom: 30px;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
+    /* Container Card */
+    .main-card {
+      border: none;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 20px;
+      overflow: hidden;
     }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f1f5f9;
-      border:1px solid var(--border);
+    .card-header-custom {
+      background: white;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 25px;
+    }
+
+    /* Info Box */
+    .info-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 15px;
+      height: 100%;
+      transition: all 0.2s;
+    }
+    .info-box:hover { border-color: var(--green2); }
+    .info-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700; margin-bottom: 4px; }
+    .info-value { font-size: 15px; font-weight: 600; color: #1e293b; }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-weight: 700;
       font-size: 12px;
-      color:#0f172a;
-      white-space: nowrap;
+      letter-spacing: 0.5px;
     }
 
-    .metaGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    @media (max-width: 760px){
-      .metaGrid{ grid-template-columns: 1fr; }
-    }
+    /* Timeline Stepper */
+    .timeline-steps { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; position: relative; }
+    .timeline-steps::before { content: ""; position: absolute; top: 15px; left: 10%; right: 10%; height: 2px; background: #e2e8f0; z-index: 1; }
+    .step { position: relative; z-index: 2; text-align: center; width: 25%; }
+    .step-icon { width: 32px; height: 32px; border-radius: 50%; background: #e2e8f0; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
+    .step.active .step-icon { background: var(--green2); box-shadow: 0 0 0 5px rgba(5, 150, 105, 0.2); }
+    .step.active .step-text { color: var(--green2); font-weight: 700; }
+    .step-text { font-size: 11px; color: #94a3b8; }
 
-    .metaItem{
-      border:1px solid var(--border);
-      border-radius: 14px;
-      background:#fbfdff;
-      padding: 12px 12px;
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-    .metaLabel{
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .metaValue{
-      font-weight: 800;
-      font-size: 14px;
-      word-break: break-word;
-    }
-    .metaValue a{
-      color:#2563eb;
-      text-decoration:none;
-      font-weight:800;
-    }
-    .metaValue a:hover{ text-decoration: underline; }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border:1px solid transparent;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .02em;
-      text-transform: uppercase;
-      width: fit-content;
-    }
-    .badge.neutral{ background: var(--neutralBg); border-color: rgba(15,23,42,.08); color:#0f172a; }
-    .badge.info{ background: var(--infoBg); border-color: rgba(14,165,233,.25); color:#075985; }
-    .badge.warn{ background: var(--warnBg); border-color: rgba(180,83,9,.25); color:#78350f; }
-    .badge.success{ background: var(--successBg); border-color: rgba(5,150,105,.25); color:#065f46; }
-    .badge.danger{ background: var(--dangerBg); border-color: rgba(220,38,38,.25); color:#7f1d1d; }
-
-    .section{
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--border);
-    }
-    .sectionTitle{
-      margin:0 0 10px;
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-    }
-
-    .box{
-      border:1px solid var(--border);
-      border-radius: 14px;
-      background: #fbfdff;
-      padding: 14px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-size: 14px;
-    }
-    .box.info{ background: #ecfeff; border-color: rgba(14,165,233,.30); }
-    .box.warn{ background: #fef9c3; border-color: rgba(250,204,21,.35); }
-
-    .actions{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--border);
-      flex-wrap: wrap;
-    }
-    .btn{
-      border:0;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 900;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-    }
-    .btnGhost{
-      background:#fff;
-      color:#0f172a;
-      border:1px solid var(--border);
-    }
-    .btnGhost:hover{ background:#f8fafc; }
-
-    .btnPrimary{
-      background:#2563eb;
-      color:#fff;
-      box-shadow: 0 14px 30px rgba(37,99,235,.22);
-    }
-    .btnPrimary:hover{ filter: brightness(1.03); }
-
-    .muted{
-      color: var(--muted);
-      font-size: 12px;
-    }
+    /* Button Custom */
+    .btn-green { background-color: var(--green2); border-color: var(--green2); color: white; font-weight: 600; border-radius: 10px; padding: 10px 20px; }
+    .btn-green:hover { background-color: #047857; color: white; }
+    .btn-outline-green { border-color: var(--green2); color: var(--green2); font-weight: 600; border-radius: 10px; }
+    .btn-outline-green:hover { background-color: var(--soft-bg); border-color: var(--green2); color: var(--green2); }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    @php
-      // Mapping status -> style badge (sesuaikan dengan value status di DB kamu)
-      $st = strtolower($aduan->status ?? '');
-      $badgeClass = 'neutral';
-      $badgeText  = $aduan->status;
 
-      if (in_array($st, ['terkirim','baru','pending','menunggu'])) $badgeClass = 'info';
-      if (in_array($st, ['diproses','proses','on progress','in_progress'])) $badgeClass = 'warn';
-      if (in_array($st, ['selesai','done','closed','completed'])) $badgeClass = 'success';
-      if (in_array($st, ['ditolak','batal','canceled','rejected'])) $badgeClass = 'danger';
-
-      // Kategori tampil rapi
-      $kategoriNice = ucwords(str_replace('_',' ', $aduan->kategori ?? '-'));
-    @endphp
-
-    <div class="header">
-      <div>
-        <h2 class="title">Status Aduan</h2>
-        <p class="subtitle">Detail tiket dan perkembangan penanganan aduan Anda.</p>
-      </div>
-
-      <div class="pill">
-        <span class="badge {{ $badgeClass }}">{{ strtoupper($badgeText) }}</span>
-      </div>
+<div class="branding-bar">
+  <div class="container d-flex align-items-center">
+    <img src="{{ asset('image/logo.jpeg') }}" alt="Logo Sumenep" height="40" class="me-3">
+    <div>
+      <div class="fw-bold text-uppercase" style="font-size: 13px; line-height: 1;">Dinas Kesehatan</div>
+      <small class="text-secondary">Kabupaten Sumenep</small>
     </div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="metaGrid">
-        <div class="metaItem">
-          <div class="metaLabel">Kode Tiket</div>
-          <div class="metaValue">{{ $aduan->kode_tiket }}</div>
-        </div>
+<div class="container pb-5" style="max-width: 900px;">
+  
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h3 class="fw-bold mb-1">Rincian Aduan</h3>
+      <p class="text-secondary mb-0">Tiket ID: <span class="text-dark fw-bold">#{{ $aduan->kode_tiket }}</span></p>
+    </div>
+    <div class="col-auto">
+      @php
+        $status = $aduan->status ?? 'baru';
+        $statusStyle = match($status) {
+          'baru' => ['bg' => 'bg-primary', 'label' => 'TERKIRIM'],
+          'diproses' => ['bg' => 'bg-warning text-dark', 'label' => 'DIPROSES'],
+          'selesai' => ['bg' => 'bg-success', 'label' => 'SELESAI'],
+          'ditolak' => ['bg' => 'bg-danger', 'label' => 'DITOLAK'],
+          default => ['bg' => 'bg-secondary', 'label' => 'PENDING'],
+        };
+      @endphp
+      <span class="status-badge {{ $statusStyle['bg'] }} text-uppercase">
+        <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i> {{ $statusStyle['label'] }}
+      </span>
+    </div>
+  </div>
 
-        <div class="metaItem">
-          <div class="metaLabel">Nama Pelapor</div>
-          <div class="metaValue">{{ $aduan->nama_pelapor }}</div>
-        </div>
+  {{-- Timeline Progres --}}
+  <div class="timeline-steps px-3">
+    <div class="step {{ in_array($status, ['baru','diproses','selesai']) ? 'active' : '' }}">
+      <div class="step-icon"><i class="bi bi-file-earmark-text"></i></div>
+      <div class="step-text">Baru</div>
+    </div>
+    <div class="step {{ in_array($status, ['diproses','selesai']) ? 'active' : '' }}">
+      <div class="step-icon"><i class="bi bi-gear"></i></div>
+      <div class="step-text">Diproses</div>
+    </div>
+    <div class="step {{ $status == 'selesai' ? 'active' : '' }}">
+      <div class="step-icon"><i class="bi bi-check-lg"></i></div>
+      <div class="step-text">Selesai</div>
+    </div>
+  </div>
 
-        <div class="metaItem">
-          <div class="metaLabel">Nomor WhatsApp</div>
-          <div class="metaValue">
-            @if($aduan->wa)
-              <a href="https://wa.me/62{{ ltrim($aduan->wa, '0') }}" target="_blank" rel="noopener">
-                {{ $aduan->wa }} <span aria-hidden="true">↗</span>
-              </a>
-            @else
-              -
-            @endif
+  <div class="card main-card">
+    <div class="card-body p-4">
+      
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="info-box">
+            <div class="info-label">Nama Pelapor</div>
+            <div class="info-value">{{ $aduan->nama_pelapor }}</div>
           </div>
         </div>
-
-        <div class="metaItem">
-          <div class="metaLabel">Kategori</div>
-          <div class="metaValue">{{ $kategoriNice }}</div>
+        <div class="col-md-6">
+          <div class="info-box">
+            <div class="info-label">WhatsApp</div>
+            <div class="info-value">
+              @php
+                $waClean = preg_replace('/[^0-9]/', '', $aduan->wa);
+                if (str_starts_with($waClean, '0')) $waClean = '62' . substr($waClean, 1);
+              @endphp
+              <a href="https://wa.me/{{ $waClean }}" target="_blank" class="text-decoration-none text-success">
+                {{ $aduan->wa }} <i class="bi bi-whatsapp ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="info-box">
+            <div class="info-label">Kategori</div>
+            <div class="info-value text-capitalize">{{ $aduan->kategori }}</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="info-box">
+            <div class="info-label">Prioritas</div>
+            <div class="info-value">
+              @if($aduan->darurat)
+                <span class="text-danger fw-bold"><i class="bi bi-lightning-fill"></i> Gawat Darurat</span>
+              @else
+                <span class="text-primary">Normal</span>
+              @endif
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="section">
-        <h3 class="sectionTitle">Isi Aduan</h3>
-        <div class="box">{{ $aduan->isi_aduan }}</div>
-        <p class="muted" style="margin:10px 0 0;">
-          Pastikan informasi sudah benar. Jika ada detail tambahan, kirim aduan baru atau hubungi admin.
-        </p>
+      <div class="mb-4">
+        <div class="info-label">Lokasi Kejadian</div>
+        <div class="p-3 bg-light rounded-3">
+          <div class="fw-semibold mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ $aduan->lokasi ?? '-' }}</div>
+          @if($aduan->maps_link)
+            <a href="{{ $aduan->maps_link }}" target="_blank" class="btn btn-sm btn-outline-green">
+              <i class="bi bi-map"></i> Buka Peta Google
+            </a>
+          @endif
+        </div>
       </div>
 
-      <div class="section">
-        <h3 class="sectionTitle">Tanggapan Admin</h3>
+      <div class="mb-4">
+        <div class="info-label">Isi Aduan / Laporan</div>
+        <div class="p-3 bg-light rounded-3" style="white-space: pre-line;">
+          {{ $aduan->isi_aduan }}
+        </div>
+      </div>
 
-        @if(!empty($aduan->feedback_admin))
-          <div class="box info">{{ $aduan->feedback_admin }}</div>
+      @if($aduan->lampiran_path)
+      <div class="mb-4">
+        <div class="info-label">Lampiran Foto/Dokumen</div>
+        <div class="p-3 border rounded-3 d-inline-block">
+          @php
+            $ext = strtolower(pathinfo($aduan->lampiran_path, PATHINFO_EXTENSION));
+            $isImg = in_array($ext, ['jpg','jpeg','png','webp']);
+          @endphp
+          @if($isImg)
+            <img src="{{ asset('storage/' . $aduan->lampiran_path) }}" class="img-fluid rounded mb-2 d-block" style="max-height: 200px;">
+          @endif
+          <a href="{{ asset('storage/' . $aduan->lampiran_path) }}" target="_blank" class="btn btn-sm btn-green">
+            <i class="bi bi-download"></i> Lihat File Penuh
+          </a>
+        </div>
+      </div>
+      @endif
+
+      {{-- TANGGAPAN ADMIN --}}
+      <div class="mt-5">
+        <div class="info-label mb-2">Tanggapan & Feedback Admin</div>
+        @if($aduan->feedback_admin)
+          <div class="p-4 rounded-3" style="background: var(--soft-bg); border-left: 5px solid var(--green2);">
+            <div class="fw-bold text-success mb-2"><i class="bi bi-chat-left-quote-fill"></i> Balasan Admin:</div>
+            <div class="text-dark">{{ $aduan->feedback_admin }}</div>
+          </div>
         @else
-          <div class="box warn">Belum ada tanggapan dari admin.</div>
+          <div class="alert alert-warning border-0 rounded-3">
+            <i class="bi bi-clock-history me-2"></i> Mohon bersabar, aduan Anda sedang menunggu peninjauan oleh tim Dinkes.
+          </div>
         @endif
       </div>
 
-      <div class="actions">
-        <div class="muted">Simpan kode tiket untuk pengecekan berikutnya.</div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btn btnGhost" href="{{ route('aduan.cek.form') }}">
-            ← Kembali Cek Aduan
+      <div class="mt-5 pt-3 border-top d-flex justify-content-between align-items-center">
+        <div class="text-secondary" style="font-size: 12px;">
+          <i class="bi bi-calendar3 me-1"></i> Dikirim pada: {{ $aduan->created_at->format('d M Y, H:i') }}
+        </div>
+        <div>
+          <a href="{{ route('aduan.cek.form') }}" class="btn btn-outline-secondary me-2">
+            <i class="bi bi-search"></i> Cek Tiket Lain
           </a>
-          <a class="btn btnPrimary" href="{{ route('aduan.create') }}">
-            Kirim Aduan Baru <span aria-hidden="true">→</span>
-          </a>
+          <button onclick="window.print()" class="btn btn-light border">
+            <i class="bi bi-printer"></i> Cetak
+          </button>
         </div>
       </div>
+
     </div>
   </div>
+
+  <p class="text-center text-secondary mt-4" style="font-size: 13px;">
+    © {{ date('Y') }} Dinas Kesehatan Kabupaten Sumenep
+  </p>
+</div>
+
 </body>
 </html>

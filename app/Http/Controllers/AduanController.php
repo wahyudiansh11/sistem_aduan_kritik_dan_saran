@@ -18,38 +18,23 @@ class AduanController extends Controller
 
     public function store(Request $request)
     {
-        // daftar kategori sesuai form (samakan PERSIS stringnya)
-        $kategoriNormal = ['fasilitas', 'tenaga kerja', 'kelengkapan obat', 'pelayanan kesehatan'];
-        $kategoriDarurat = ['kecelakaan', 'butuh ambulans', 'gawat darurat', 'bencana', 'lainnya darurat'];
-
         $data = $request->validate([
             'nama_pelapor' => 'required|string|max:255',
-            'wa' => 'nullable|string|max:30',
-            'darurat' => 'required|in:0,1',
-            'isi_aduan' => 'required|string',
+            'wa' => 'required|string|max:30',
+            'darurat' => 'required|boolean',
             'kategori' => 'required|string',
             'lokasi' => 'required|string|max:255',
-            'lampiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'maps_link' => 'nullable|url',
+            'isi_aduan' => 'required|string',
+            'lampiran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+
+            // khusus darurat
+            'ambulans_id' => 'nullable|string',
+            'no_ambulans' => 'nullable|string|max:30',
         ]);
 
         $data['darurat'] = $request->boolean('darurat');
 
-        // validasi kategori sesuai darurat
-        if ($data['darurat']) {
-            if (!in_array($data['kategori'], $kategoriDarurat, true)) {
-                return back()
-                    ->withErrors(['kategori' => 'Kategori darurat tidak valid.'])
-                    ->withInput();
-            }
-        } else {
-            if (!in_array($data['kategori'], $kategoriNormal, true)) {
-                return back()
-                    ->withErrors(['kategori' => 'Kategori tidak valid.'])
-                    ->withInput();
-            }
-        }
-
-        // kode tiket unik
         do {
             $kode = 'ADU' . now()->format('ymd') . strtoupper(Str::random(6));
         } while (Aduan::where('kode_tiket', $kode)->exists());
@@ -71,13 +56,11 @@ class AduanController extends Controller
     public function index(Request $request)
     {
         $kategoriList = [
-            // normal
             'fasilitas' => 'Fasilitas',
             'tenaga kerja' => 'Tenaga Kerja',
             'kelengkapan obat' => 'Kelengkapan Obat',
             'pelayanan kesehatan' => 'Pelayanan Kesehatan',
 
-            // darurat
             'kecelakaan' => 'Kecelakaan',
             'butuh ambulans' => 'Butuh Ambulans',
             'gawat darurat' => 'Gawat Darurat',
@@ -94,16 +77,34 @@ class AduanController extends Controller
 
         $q = Aduan::query()->latest();
 
+        // FILTER kategori
         if ($request->filled('kategori')) {
             $q->where('kategori', $request->kategori);
         }
 
+        // FILTER status
         if ($request->filled('status')) {
             $q->where('status', $request->status);
         }
 
-        if ($request->filled('darurat')) {
-            $q->where('darurat', (bool) $request->darurat);
+        // FILTER darurat
+        // penting: request('darurat') bisa "0" atau "1"
+        if ($request->has('darurat') && $request->darurat !== '') {
+            $q->where('darurat', (int) $request->darurat);
+        }
+
+        // SEARCH
+        if ($request->filled('q')) {
+            $keyword = trim($request->q);
+
+            $q->where(function ($w) use ($keyword) {
+                $w->where('kode_tiket', 'like', "%{$keyword}%")
+                  ->orWhere('nama_pelapor', 'like', "%{$keyword}%")
+                  ->orWhere('wa', 'like', "%{$keyword}%")
+                  ->orWhere('lokasi', 'like', "%{$keyword}%")
+                  ->orWhere('isi_aduan', 'like', "%{$keyword}%")
+                  ->orWhere('feedback_admin', 'like', "%{$keyword}%");
+            });
         }
 
         $aduans = $q->paginate(10)->withQueryString();
@@ -111,7 +112,7 @@ class AduanController extends Controller
         return view('admin.aduan.index', compact('aduans', 'kategoriList', 'statusList'));
     }
 
-    // simpan status + feedback_admin dalam 1 form
+    // simpan status + feedback_admin
     public function updateStatus(Request $request, Aduan $aduan)
     {
         $request->validate([

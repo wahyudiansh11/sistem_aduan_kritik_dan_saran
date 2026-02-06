@@ -3,182 +3,223 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cek Status Aduan</title>
+  <title>Lacak Tiket Aduan - Dinkes Sumenep</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <style>
-    :root{
-      --bg: #f6f7fb;
+    :root {
+      --bg: #f8fafc;
       --card: #ffffff;
-      --text: #0f172a;
-      --muted:#64748b;
-      --border:#e2e8f0;
-      --focus:#2563eb;
-      --danger:#dc2626;
-      --dangerBg:#fee2e2;
-      --shadow: 0 20px 50px rgba(15,23,42,.08);
-      --radius: 16px;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+
+      /* IDENTITAS VISUAL SIADRU / DINKES */
+      --primary: #0f5a43;
+      --primary-hover: #0a4231;
+      --primary-soft: rgba(15,90,67,0.08);
+
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+
+      --shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+      --radius: 20px;
     }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(37,99,235,.18), transparent 60%),
-        radial-gradient(900px 500px at 110% 10%, rgba(16,185,129,.14), transparent 55%),
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: 
+        radial-gradient(circle at top left, rgba(15,90,67,0.05), transparent 400px),
+        radial-gradient(circle at bottom right, rgba(34,197,94,0.05), transparent 400px),
         var(--bg);
-      line-height:1.45;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
 
-    .wrap{
-      max-width: 820px;
-      margin: 48px auto;
-      padding: 0 18px;
+    .wrap {
+      width: 100%;
+      max-width: 550px;
+      padding: 24px;
     }
 
-    .header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:16px;
+    .branding {
+      text-align: center;
+      margin-bottom: 32px;
     }
 
-    .title{
-      margin:0;
-      font-size: 28px;
-      letter-spacing: -0.02em;
-    }
-    .subtitle{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:14px;
+    .branding img {
+      height: 60px;
+      margin-bottom: 12px;
     }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f1f5f9;
-      border:1px solid var(--border);
-      font-size: 12px;
-      color:#0f172a;
-      white-space: nowrap;
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
+    .title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--primary);
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 20px;
+      padding: 32px;
     }
 
-    .notice{
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      border:1px solid transparent;
-      font-size:14px;
-    }
-    .notice.error{
-      background:var(--dangerBg);
-      border-color: rgba(220,38,38,.25);
-      color:#7f1d1d;
+    .notice {
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      margin-top: 10px;
+    .notice.error {
+      background: var(--danger-bg);
+      border-color: rgba(220,38,38,0.2);
+      color: #991b1b;
     }
-    label{
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
       font-size: 13px;
       font-weight: 700;
-      color:#0b1220;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
     }
-    .hint{
+
+    input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-family: 'Monaco', 'Consolas', monospace; /* Font mono agar kode tiket mudah dibaca */
+      background: #fcfcfc;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--primary-soft);
+    }
+
+    input::placeholder {
+      font-family: sans-serif;
+      font-size: 14px;
+      letter-spacing: normal;
+    }
+
+    .hint {
       color: var(--muted);
       font-size: 12px;
-      margin-top: 2px;
+      line-height: 1.5;
+      background: #f1f5f9;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 12px;
     }
 
-    input{
-      width:100%;
-      border:1px solid var(--border);
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 0;
       border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      background:#fff;
-      outline:none;
-      transition: border-color .15s ease, box-shadow .15s ease;
-    }
-    input:focus{
-      border-color: rgba(37,99,235,.55);
-      box-shadow: 0 0 0 4px rgba(37,99,235,.14);
-    }
-
-    .actions{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--border);
-      flex-wrap: wrap;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
     }
 
-    .btn{
-      border:0;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 800;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+    .btnPrimary {
+      background: var(--primary);
+      color: #fff;
     }
-    .btnPrimary{
-      background:#2563eb;
-      color:#fff;
-      box-shadow: 0 14px 30px rgba(37,99,235,.22);
-    }
-    .btnPrimary:hover{ filter: brightness(1.03); }
 
-    .btnGhost{
-      background:#fff;
-      color:#0f172a;
-      border:1px solid var(--border);
+    .btnPrimary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(15,90,67,0.25);
     }
-    .btnGhost:hover{ background:#f8fafc; }
 
-    .muted{
-      color: var(--muted);
+    .btnGhost {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary-soft);
+    }
+
+    .btnGhost:hover {
+      background: var(--primary-soft);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
       font-size: 12px;
+      color: var(--muted);
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
+    <div class="branding">
+      <img src="{{ asset('image/logo.jpeg') }}" alt="Logo Kabupaten Sumenep">
+    </div>
+
     <div class="header">
-      <div>
-        <h2 class="title">Cek Status Aduan</h2>
-        <p class="subtitle">Masukkan kode tiket untuk melihat status dan detail aduan Anda.</p>
-      </div>
-      <div class="pill">Layanan: Pelacakan Tiket</div>
+      <h2 class="title">Lacak Aduan Anda</h2>
+      <p class="subtitle">Pantau perkembangan laporan Anda secara real-time.</p>
     </div>
 
     <div class="card">
       @if($errors->any())
         <div class="notice error">
-          <strong>Gagal memproses:</strong> {{ $errors->first() }}
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span>{{ $errors->first() }}</span>
         </div>
       @endif
 
@@ -186,31 +227,40 @@
         @csrf
 
         <div class="field">
-          <label>Kode Tiket</label>
+          <label for="kode_tiket">Kode Tiket</label>
           <input
             type="text"
+            id="kode_tiket"
             name="kode_tiket"
-            placeholder="Contoh: ADU260126A1B2C3"
+            placeholder="Masukkan Kode Tiket (Contoh: ADU...)"
             value="{{ old('kode_tiket') }}"
             required
             autocomplete="off"
+            spellcheck="false"
           >
-          <div class="hint">Kode tiket ada di halaman “Aduan Terkirim”.</div>
+        </div>
+
+        <div class="hint">
+          <i class="bi bi-info-circle"></i>
+          Kode tiket diberikan sesaat setelah Anda mengirim aduan. Pastikan penulisan huruf besar dan angka sudah benar. Mohon simpan baik-baik kode tiket.
         </div>
 
         <div class="actions">
-          <div class="muted">Pastikan kode tiket benar (huruf/angka).</div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn btnPrimary" type="submit">
-              Cek Status <span aria-hidden="true">→</span>
-            </button>
-            <a class="btn btnGhost" href="{{ route('aduan.create') }}">
-              Kirim Aduan Baru
-            </a>
-          </div>
+          <button class="btn btnPrimary" type="submit">
+            <i class="bi bi-search"></i> Lacak Status Aduan
+          </button>
+          
+          <a class="btn btnGhost" href="{{ route('aduan.create') }}">
+            <i class="bi bi-plus-circle"></i> Buat Aduan Baru
+          </a>
         </div>
       </form>
     </div>
+
+    <footer>
+      &copy; {{ date('Y') }} Dinas Kesehatan Kabupaten Sumenep. <br>
+      Pusat Layanan Aduan Masyarakat.
+    </footer>
   </div>
 </body>
 </html>

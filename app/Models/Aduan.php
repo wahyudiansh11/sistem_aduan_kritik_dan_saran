@@ -6,18 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aduan extends Model
 {
-   protected $fillable = [
+protected $fillable = [
   'kode_tiket',
   'nama_pelapor',
   'wa',
   'darurat',
-  'isi_aduan',
   'kategori',
   'lokasi',
-  'status',
+  'maps_link',
+  'isi_aduan',
   'lampiran_path',
+  'status',
   'feedback_admin',
 ];
+
 
 
     protected $casts = [
