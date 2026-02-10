@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="icon" type="image/x-icon" href="/images/logo.jpeg">
+    <link rel="icon" type="image/x-icon" href="/image/logo.jpeg">
     <title>SIADRU | Dinkes Sumenep</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,22 +13,15 @@
 
     <style>
         :root {
-            --gov-primary: #064e3b;      /* Hijau Tua Khas Pemkab */
-            --gov-secondary: #059669;    /* Hijau Aksen */
-            --gov-accent: #fbbf24;       /* Emas/Kuning Instansi */
+            --gov-primary: #064e3b;
+            --gov-secondary: #059669;
+            --gov-accent: #fbbf24;
             --gov-surface: #ffffff;
             --gov-bg: #f1f5f9;
             --gov-text-main: #0f172a;
             --gov-text-muted: #64748b;
             --sidebar-width: 270px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.dark-mode {
-            --gov-bg: #020617;
-            --gov-surface: #0f172a;
-            --gov-text-main: #f1f5f9;
-            --gov-text-muted: #94a3b8;
         }
 
         body {
@@ -38,9 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* =========================
-           SIDEBAR GOVERNMENT STYLE
-        ========================= */
+        /* Sidebar */
         .gov-sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -111,9 +102,7 @@
 
         .gov-nav-link i { font-size: 1.1rem; }
 
-        /* =========================
-           MAIN CONTENT AREA
-        ========================= */
+        /* Main */
         .gov-main {
             margin-left: var(--sidebar-width);
             transition: var(--transition);
@@ -122,7 +111,6 @@
             flex-direction: column;
         }
 
-        /* Top Bar Modern */
         .gov-header {
             height: 70px;
             background: var(--gov-surface);
@@ -155,30 +143,6 @@
 
         .header-search input:focus { outline: none; }
 
-        /* Status & Profile */
-        .user-widget {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .notification-bell {
-            position: relative;
-            padding: 8px;
-            background: var(--gov-bg);
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .notification-bell .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
-            border: 2px solid var(--gov-surface);
-        }
-
-        /* Content Card */
         .gov-container {
             padding: 30px;
             flex: 1;
@@ -203,18 +167,40 @@
             padding: 25px;
         }
 
-        /* Mini Sidebar Toggle */
+        /* Mini Sidebar */
         body.mini-sidebar .gov-sidebar { width: 80px; }
         body.mini-sidebar .gov-main { margin-left: 80px; }
-        body.mini-sidebar .nav-text, 
-        body.mini-sidebar .brand-name, 
+        body.mini-sidebar .nav-text,
+        body.mini-sidebar .brand-name,
         body.mini-sidebar .nav-group-label { display: none; }
         body.mini-sidebar .gov-nav-link { justify-content: center; border-left: 0; }
 
+        /* Mobile */
         @media (max-width: 992px) {
             .gov-sidebar { transform: translateX(-100%); }
             .gov-main { margin-left: 0; }
             body.show-mobile-sidebar .gov-sidebar { transform: translateX(0); width: 280px; }
+        }
+
+        /* Overlay mobile */
+        .sidebar-overlay{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s ease;
+            z-index: 1040;
+        }
+
+        @media (max-width: 992px){
+            body.show-mobile-sidebar .sidebar-overlay{
+                opacity: 1;
+                pointer-events: auto;
+            }
+            body.show-mobile-sidebar{
+                overflow: hidden;
+            }
         }
     </style>
 </head>
@@ -223,7 +209,7 @@
 
     <aside class="gov-sidebar" id="sidebar">
         <div class="gov-brand d-flex align-items-center gap-3">
-            <img src="/images/avatar/Lambang_Kabupaten_Sumenep.png" alt="Logo">
+            <img src="/image/logo.jpeg" alt="Logo">
             <div class="brand-name">
                 <div>SIADRU</div>
                 <div style="font-size: 0.6rem; color: var(--gov-accent); font-weight: 500;">DINKES SUMENEP</div>
@@ -242,20 +228,6 @@
                 <i class="bi bi-shield-check"></i>
                 <span class="nav-text">Monitoring Aduan</span>
             </a>
-            <a href="#" class="gov-nav-link">
-                <i class="bi bi-file-earmark-bar-graph"></i>
-                <span class="nav-text">Laporan Statistik</span>
-            </a>
-
-            <div class="nav-group-label">Administrasi</div>
-            <a href="#" class="gov-nav-link">
-                <i class="bi bi-envelope-paper"></i>
-                <span class="nav-text">Arsip Surat</span>
-            </a>
-            <a href="/profile" class="gov-nav-link {{ request()->is('profile*') ? 'active' : '' }}">
-                <i class="bi bi-person-badge"></i>
-                <span class="nav-text">Profil Pegawai</span>
-            </a>
         </div>
 
         <div class="p-3">
@@ -266,15 +238,19 @@
                     <span style="font-size: 0.75rem; color: white;">Operasional Normal</span>
                 </div>
             </div>
-            
+
+            <!-- Logout Desktop/Sidebar -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button class="btn btn-outline-light border-white border-opacity-25 w-100 d-flex align-items-center justify-content-center gap-2" style="border-radius: 10px;">
+                <button type="submit" class="btn btn-outline-light border-white border-opacity-25 w-100 d-flex align-items-center justify-content-center gap-2" style="border-radius: 10px;">
                     <i class="bi bi-box-arrow-left"></i> <span>Logout</span>
                 </button>
             </form>
         </div>
     </aside>
+
+    <!-- Overlay mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="gov-main">
         <header class="gov-header">
@@ -291,13 +267,19 @@
                 </div>
             </div>
 
-            <div class="user-widget">
-                <div class="notification-bell">
-                    <i class="bi bi-bell-fill text-muted"></i>
-                    <span class="badge rounded-pill">3</span>
-                </div>
-                
-                <div class="vr mx-2"></div>
+            <div class="d-flex align-items-center gap-3">
+
+                <!-- ✅ LOGOUT MOBILE: muncul hanya di mobile -->
+                <form method="POST" action="{{ route('logout') }}" class="d-lg-none">
+                    @csrf
+                    <button type="submit"
+                        class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1"
+                        style="border-radius:8px;">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="vr mx-2 d-none d-sm-block"></div>
 
                 <div class="d-flex align-items-center gap-3 cursor-pointer">
                     <div class="text-end d-none d-sm-block">
@@ -341,7 +323,7 @@
 
         <footer class="p-4 text-center border-top bg-white">
             <small class="text-muted">
-                Copyright &copy; {{ date('Y') }} <strong>Dinas Kesehatan Kab. Sumenep</strong>. 
+                Copyright &copy; {{ date('Y') }} <strong>Dinas Kesehatan Kab. Sumenep</strong>.
                 <span class="mx-2">|</span> Versi 2.1.0-Stabil
             </small>
         </footer>
@@ -353,24 +335,65 @@
         function updateClock() {
             const now = new Date();
             const time = now.toLocaleTimeString('id-ID', { hour12: false });
-            document.getElementById('realtime-clock').innerText = time + ' WIB';
+            const el = document.getElementById('realtime-clock');
+            if (el) el.innerText = time + ' WIB';
         }
         setInterval(updateClock, 1000);
         updateClock();
 
         // Mini Sidebar Toggle
         const miniToggle = document.getElementById('miniToggle');
-        miniToggle.addEventListener('click', () => {
-            document.body.classList.toggle('mini-sidebar');
-            const icon = miniToggle.querySelector('i');
-            icon.classList.toggle('bi-text-indent-left');
-            icon.classList.toggle('bi-text-indent-right');
+        if (miniToggle) {
+            miniToggle.addEventListener('click', () => {
+                document.body.classList.toggle('mini-sidebar');
+                const icon = miniToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('bi-text-indent-left');
+                    icon.classList.toggle('bi-text-indent-right');
+                }
+            });
+        }
+
+        // Mobile Sidebar Toggle + Overlay Close
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebar = document.getElementById('sidebar');
+
+        function openSidebar() {
+            document.body.classList.add('show-mobile-sidebar');
+        }
+
+        function closeSidebar() {
+            document.body.classList.remove('show-mobile-sidebar');
+        }
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                document.body.classList.contains('show-mobile-sidebar') ? closeSidebar() : openSidebar();
+            });
+        }
+
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+
+        // Klik menu -> tutup di mobile
+        if (sidebar) {
+            sidebar.querySelectorAll('a.gov-nav-link').forEach(a => {
+                a.addEventListener('click', () => {
+                    if (window.innerWidth <= 992) closeSidebar();
+                });
+            });
+        }
+
+        // ESC to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSidebar();
         });
 
-        // Mobile Toggle
-        const mobileToggle = document.getElementById('mobileToggle');
-        mobileToggle.addEventListener('click', () => {
-            document.body.classList.toggle('show-mobile-sidebar');
+        // Resize cleanup
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) closeSidebar();
         });
     </script>
 </body>

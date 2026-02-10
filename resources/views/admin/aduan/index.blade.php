@@ -1,131 +1,253 @@
 <x-app-layout>
-    <style>
-        /* Modern Government Theme */
-        :root {
-            --dinkes-green: #059669;
-            --dinkes-dark: #064e3b;
-            --surface: #ffffff;
-            --background: #f8fafc;
-        }
+   <style>
+  /* Modern Government Theme */
+  :root {
+    --dinkes-green: #059669;
+    --dinkes-dark: #064e3b;
+    --surface: #ffffff;
+    --background: #f8fafc;
+  }
 
-        .admin-content {
-            padding: 1.5rem;
-            background-color: var(--background);
-            min-height: 100vh;
-        }
+  .admin-content {
+    padding: 1.5rem;
+    background-color: var(--background);
+    min-height: 100vh;
 
-        /* Card Instansi Style */
-        .main-card {
-            background: var(--surface);
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
+    /* penting: konten admin harus di atas dekorasi layout */
+    position: relative;
+    z-index: 10;
+    overflow: visible;
+  }
 
-        .card-header-instansi {
-            background: #ffffff;
-            padding: 1.5rem;
-            border-bottom: 2px solid var(--dinkes-green);
-        }
+  /* Card Instansi Style */
+  .main-card {
+    background: var(--surface);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
 
-        /* Search Section */
-        .search-wrapper {
-            background: #f1f5f9;
-            padding: 1.25rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
+  .card-header-instansi {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--dinkes-green);
+  }
 
-        .form-input-gov {
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 0.5rem 0.75rem;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
+  /* Search Section */
+  .search-wrapper {
+    background: #f1f5f9;
+    padding: 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
 
-        .form-input-gov:focus {
-            border-color: var(--dinkes-green);
-            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
-            outline: none;
-        }
+  .form-input-gov {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
 
-        /* Table Styling */
-        .gov-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+  .form-input-gov:focus {
+    border-color: var(--dinkes-green);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+    outline: none;
+  }
 
-        .gov-table th {
-            background: #f8fafc;
-            color: #475569;
-            font-weight: 600;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: left;
-        }
+  /* Table Styling */
+  .gov-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-        .gov-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #f1f5f9;
-            vertical-align: top;
-            font-size: 14px;
-        }
+  .gov-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+  }
 
-        /* Status Badge */
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+  .gov-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+    font-size: 14px;
+  }
 
-        .status-baru { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-        .status-proses { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
-        .status-selesai { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
-        .status-ditolak { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+  /* Status Badge */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
 
-        /* Action Form */
-        .update-box {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 10px;
-        }
+  .status-baru    { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .status-proses  { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+  .status-selesai { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+  .status-ditolak { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-        .btn-update {
-            background: var(--dinkes-green);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            width: 100%;
-        }
+  /* Action Form */
+  .update-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+  }
 
-        .btn-update:hover { background: var(--dinkes-dark); }
+  .btn-update {
+    background: var(--dinkes-green);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    width: 100%;
+  }
 
-        @media (max-width: 768px) {
-            .gov-table thead { display: none; }
-            .gov-table tr { display: block; border: 1px solid #e2e8f0; margin-bottom: 1rem; border-radius: 8px; background: #fff; }
-            .gov-table td { display: block; text-align: right; padding-left: 50%; position: relative; border: none; }
-            .gov-table td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 1rem;
-                font-weight: bold;
-                color: #64748b;
-            }
-        }
-    </style>
+  .btn-update:hover { background: var(--dinkes-dark); }
+
+  /* ================================
+     FIX: SHAPE / PANAH BESAR DARI LAYOUT
+     ================================ */
+
+  /* kalau dekorasi muncul dari pseudo-element layout */
+  body::before, body::after,
+  main::before, main::after,
+  #app::before, #app::after {
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* tangkap dekorasi berdasarkan class umum (kalau ada) */
+  .bg-shape, .bg-decoration, .decoration, .shape,
+  [class*="shape"], [class*="decor"], [class*="ornament"], [class*="hero"] {
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* kasus paling sering: dekorasi berupa SVG besar */
+  svg {
+    pointer-events: none !important;
+    z-index: 0 !important;
+    opacity: .06 !important;
+    max-width: 240px !important;
+    max-height: 240px !important;
+  }
+
+  /* kalau ada elemen dekorasi absolute/fixed lewat inline style */
+  *[style*="position: absolute"],
+  *[style*="position:absolute"],
+  *[style*="position: fixed"],
+  *[style*="position:fixed"]{
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* OPTIONAL: kalau mau HILANG TOTAL dekorasi di admin, aktifkan ini */
+  /*
+  svg, .bg-shape, .bg-decoration, .decoration, .shape,
+  [class*="shape"], [class*="decor"], [class*="ornament"], [class*="hero"]{
+    display:none !important;
+  }
+  */
+
+  /* ================================
+     Pagination Laravel (Tailwind) - compact & rapi
+     ================================ */
+  nav[role="navigation"]{
+    font-size: 13px;
+  }
+
+  nav[role="navigation"] a,
+  nav[role="navigation"] span{
+    padding: 6px 10px !important;
+    border-radius: 10px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+  }
+
+  nav[role="navigation"] a:hover{
+    border-color: rgba(5,150,105,.35) !important;
+  }
+
+  @media (max-width: 768px) {
+    .gov-table thead { display: none; }
+    .gov-table tr {
+      display: block;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .gov-table td {
+      display: block;
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+      border: none;
+    }
+    .gov-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 1rem;
+      font-weight: bold;
+      color: #64748b;
+    }
+    
+  }
+  /* =========================================
+   HAPUS TOTAL DEKORASI PANAH / SHAPE (ADMIN)
+   ========================================= */
+
+/* 1. Matikan semua SVG dekorasi */
+svg{
+  display: none !important;
+}
+
+/* 2. Matikan semua elemen dekorasi berbasis class */
+.bg-shape,
+.bg-decoration,
+.decoration,
+.shape,
+[class*="shape"],
+[class*="decor"],
+[class*="ornament"],
+[class*="hero"],
+[class*="arrow"]{
+  display: none !important;
+}
+
+/* 3. Matikan dekorasi dari pseudo-element layout */
+body::before,
+body::after,
+main::before,
+main::after,
+#app::before,
+#app::after{
+  display: none !important;
+  content: none !important;
+}
+
+/* 4. Pastikan konten admin tetap normal */
+.admin-content{
+  position: relative;
+  z-index: 1;
+  background: #f8fafc;
+}
+
+</style>
 
     <div class="admin-content">
         <div class="main-card">

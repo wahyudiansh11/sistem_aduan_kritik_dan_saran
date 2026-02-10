@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Kirim Aduan & Aspirasi - Dinkes Sumenep</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('image/logo.jpeg') }}">
+    
   <style>
     :root {
       --primary: #059669; /* Hijau Kesehatan */
@@ -314,11 +316,14 @@ input[type="file"]{
 
           <small id="lokasiStatus">Khusus darurat, sangat disarankan klik "GPS Saya".</small>
         </div>
+<div class="form-group">
+  <label>Alamat Lengkap / Lokasi Kejadian *</label>
+  <textarea name="lokasi"
+            id="lokasi"
+            placeholder="Contoh: Jl. Trunojoyo No. 10, depan Puskesmas"
+            required>{{ old('lokasi') }}</textarea>
+</div>
 
-        <div class="form-group">
-          <label>Alamat Lengkap / Lokasi Kejadian *</label>
-          <input name="lokasi" id="lokasi" placeholder="Contoh: Jl. Trunojoyo No. 10, depan Puskesmas" value="{{ old('lokasi') }}" required>
-        </div>
 
         <div class="form-group">
           <label>Isi Laporan / Pesan *</label>
@@ -336,7 +341,7 @@ input[type="file"]{
     </div>
 
     <p style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 30px;">
-      &copy; 2024 Dinas Kesehatan Kabupaten Sumenep. All Rights Reserved.
+      &copy; 2026 Dinas Kesehatan Kabupaten Sumenep. All Rights Reserved.
     </p>
   </div>
 

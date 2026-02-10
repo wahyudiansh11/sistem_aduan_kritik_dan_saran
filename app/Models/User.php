@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    use Notifiable;
 
     /**
      * Kolom yang boleh diisi mass assignment
@@ -37,4 +38,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    
 }
