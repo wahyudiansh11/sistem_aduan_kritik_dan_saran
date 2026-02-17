@@ -70,6 +70,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/admin/aduan/{aduan}/status', [AduanController::class, 'updateStatus'])
         ->name('admin.aduan.status');
+
+    //EXCEEL/PDF
+   Route::get('/dashboard/export/excel', [DashboardController::class, 'exportExcel'])
+    ->name('dashboard.export.excel');
+
+    Route::get('/admin/aduan', [AduanController::class, 'index'])->name('admin.aduan.index');
+
 });
 
 require __DIR__.'/auth.php';
