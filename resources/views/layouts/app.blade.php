@@ -261,10 +261,9 @@
                 <button class="btn btn-light d-lg-none" id="mobileToggle">
                     <i class="bi bi-list fs-4"></i>
                 </button>
-                <div class="header-search d-none d-md-flex">
-                    <i class="bi bi-search text-muted"></i>
-                    <input type="text" placeholder="Cari data atau laporan...">
-                </div>
+                <form action="{{ route('dashboard') }}" method="GET" class="w-full max-w-md">
+</form>
+
             </div>
 
             <div class="d-flex align-items-center gap-3">

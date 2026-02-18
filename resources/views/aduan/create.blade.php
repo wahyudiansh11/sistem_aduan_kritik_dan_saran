@@ -317,7 +317,7 @@ input[type="file"]{
           <small id="lokasiStatus">Khusus darurat, sangat disarankan klik "GPS Saya".</small>
         </div>
 <div class="form-group">
-  <label>Alamat Lengkap / Lokasi Kejadian *</label>
+  <label>Alamat Lengkap / Lokasi Kejadian (opsional)</label>
   <textarea name="lokasi"
             id="lokasi"
             placeholder="Contoh: Jl. Trunojoyo No. 10, depan Puskesmas"
@@ -389,9 +389,26 @@ input[type="file"]{
 
     const ambulansList = [
       { id: '', nama: '-- Pilih Puskesmas Terdekat --', phone: '' },
-      { id: 'puskesmas_sumenep', nama: 'Ambulans Puskesmas Sumenep', phone: '6287765312695' },
+      { id: 'Call Center Ambulans Sumenep', nama: 'Call Center Ambulans Sumenep', phone: '112' },
+      { id: 'puskesmas_pamolokan', nama: 'Ambulans Puskesmas Pamolokan', phone: '(0328) 6768307' },
       { id: 'puskesmas_kalianget', nama: 'Ambulans Puskesmas Kalianget', phone: '628111222333' },
       { id: 'puskesmas_gapura', nama: 'Ambulans Puskesmas Gapura', phone: '628555666777' },
+      { id: 'puskesmas_ambunten', nama: 'Ambulans Puskesmas Ambunten', phone: '0328-6768307' },
+      { id: 'puskesmas_pandian', nama: 'Ambulans Puskesmas Pandian', phone: '+6282335670366' },
+      { id: 'puskesmas_ganding', nama: 'Ambulans Puskesmas Ganding', phone: '(0328) 8241008' },  
+      { id: 'puskesmas_pragaan', nama: 'Ambulans Puskesmas Pragaan', phone: '( 0328 ) 8241095' },
+      { id: 'puskesmas_dungkek', nama: 'Ambulans Puskesmas Dungkek', phone: '085104101238' },
+      { id: 'puskesmas_dasuk', nama: 'Ambulans Puskesmas Dasuk', phone: '085104101238' },
+      { id: 'puskesmas_pasongsongan', nama: 'Ambulans Puskesmas Pasongsongan', phone: '085104101238' },
+      { id: 'puskesmas_rubaru', nama: 'Ambulans Puskesmas Rubaru', phone: '085104101238' },
+      { id: 'puskesmas_guluk-guluk', nama: 'Ambulans Puskesmas Guluk-Guluk', phone: '085104101238' },
+      { id: 'puskesmas_saronggi', nama: 'Ambulans Puskesmas Saronggi', phone: '085104101238' },
+      { id: 'puskesmas_bluto', nama: 'Ambulans Puskesmas Bluto', phone: '085104101238' },
+      { id: 'puskesmas_batuan', nama: 'Ambulans Puskesmas Batuan', phone: '085104101238' },  
+      { id: 'puskesmas_batuputih', nama: 'Ambulans Puskesmas Batuh Putih', phone: '085104101238' },
+      { id: 'puskesmas_lenteng', nama: 'Ambulans Puskesmas Lenteng', phone: '085104101238' },
+      { id: 'puskesmas_talango', nama: 'Ambulans Puskesmas Talango', phone: '085104101238' },
+      { id: 'puskesmas_talango', nama: 'Ambulans Puskesmas Talango', phone: '085104101238' },
     ];
 
     const oldAmbulansId = @json(old('ambulans_id', ''));

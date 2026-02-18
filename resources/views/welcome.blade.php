@@ -315,39 +315,82 @@
     </div>
   </div>
 </section>
+@php
+  // KATEGORI UNTUK LANDING PAGE (tanpa controller)
+  $kategoriLanding = [
+    [
+      'nama' => 'Pelayanan Kesehatan',
+      'deskripsi' => 'Keluhan terkait kualitas pelayanan kesehatan.'
+    ],
+    [
+      'nama' => 'Fasilitas Kesehatan',
+      'deskripsi' => 'Keluhan terkait sarana prasarana dan kebersihan gedung kesehatan.'
+    ],
+    [
+      'nama' => 'Petugas/Tenaga Medis',
+      'deskripsi' => 'Masukan terkait sikap, etika, dan profesionalisme petugas.'
+    ],
+    [
+      'nama' => 'Stok & Kelengkapan Obat',
+      'deskripsi' => 'Laporan terkait ketersediaan obat dan kebutuhan farmasi.'
+    ],
+    [
+      'nama' => 'Lain-lain',
+      'deskripsi' => 'Kategori aduan lainnya di luar pilihan utama.'
+    ],
+  ];
+@endphp
 
+
+{{-- LAYANAN --}}
 {{-- LAYANAN --}}
 <section id="layanan" class="section">
   <div class="container text-center mb-5">
     <h2 class="fw-extrabold mb-3">Kategori Aduan</h2>
-    <p class="text-muted mx-auto" style="max-width: 600px;">Kami melayani berbagai kategori pengaduan untuk meningkatkan kualitas kesehatan masyarakat.</p>
+    <p class="text-muted mx-auto" style="max-width: 600px;">
+      Kami melayani berbagai kategori pengaduan untuk meningkatkan kualitas kesehatan masyarakat.
+    </p>
   </div>
+
   <div class="container">
     <div class="row g-4">
-      <div class="col-md-4">
-        <div class="feature">
-          <div class="ic"><i class="bi bi-hospital"></i></div>
-          <h5 class="fw-bold">Fasilitas</h5>
-          <p class="text-muted small">Keluhan terkait sarana prasarana dan kebersihan gedung kesehatan.</p>
+      @foreach ($kategoriLanding as $k)
+        @php
+          $nama = strtolower($k['nama']);
+
+          // default icon
+          $icon = 'bi-chat-dots';
+          $icBg = 'var(--soft)';
+          $icColor = 'var(--green2)';
+
+          if (str_contains($nama, 'fasilitas')) $icon = 'bi-hospital';
+          if (str_contains($nama, 'tenaga') || str_contains($nama, 'petugas')) $icon = 'bi-people';
+          if (str_contains($nama, 'stok') || str_contains($nama, 'obat')) $icon = 'bi-capsule-pill';
+          if (str_contains($nama, 'pelayanan')) $icon = 'bi-clipboard2-pulse';
+          if (str_contains($nama, 'gawat') || str_contains($nama, 'darurat')) {
+            $icon = 'bi-exclamation-triangle';
+            $icBg = '#fff5f5';
+            $icColor = '#e53e3e';
+          }
+        @endphp
+
+        <div class="col-md-4">
+          <div class="feature h-100 position-relative">
+            <div class="ic" style="background: {{ $icBg }}; color: {{ $icColor }};">
+              <i class="bi {{ $icon }}"></i>
+            </div>
+            <h5 class="fw-bold">{{ $k['nama'] }}</h5>
+            <p class="text-muted small">{{ $k['deskripsi'] }}</p>
+
+            {{-- kalau mau bisa diklik langsung ke form aduan --}}
+            <a href="{{ route('aduan.create') }}" class="stretched-link" aria-label="Buat Aduan"></a>
+          </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="feature">
-          <div class="ic"><i class="bi bi-people"></i></div>
-          <h5 class="fw-bold">Tenaga Medis</h5>
-          <p class="text-muted small">Masukan terkait sikap, etika, dan profesionalisme petugas.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="feature">
-          <div class="ic" style="background: #fff5f5; color: #e53e3e;"><i class="bi bi-exclamation-triangle"></i></div>
-          <h5 class="fw-bold">Gawat Darurat</h5>
-          <p class="text-muted small">Laporan kejadian mendesak yang membutuhkan respon segera.</p>
-        </div>
-      </div>
+      @endforeach
     </div>
   </div>
 </section>
+
 
 {{-- PROGRAM --}}
 <section id="program" class="section section-soft">
@@ -380,7 +423,7 @@
           <img src="{{ asset('image/gawat.png') }}" alt="Darurat">
           <div class="p-4">
             <h6 class="fw-bold">Call Center 119</h6>
-            <p class="text-muted small mb-0">Layanan ambulans dan kedaruratan medis cepat 24 jam.</p>
+            <p class="text-muted small mb-0">Layanan ambulans dan kedaruratan medis cepat dalam 24 jam.</p>
           </div>
         </div>
       </div>
@@ -394,8 +437,22 @@
     <div class="row g-5 align-items-center">
       <div class="col-lg-7">
         <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 30px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15843.896740679815!2d113.8447881!3d-7.0094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd9e6912389d4d1%3A0xe744e2e28741639d!2sDinas%20Kesehatan%20Kabupaten%20Sumenep!5e0!3m2!1sid!2sid!4v1700000000000" 
-            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+<iframe
+  width="100%"
+  height="400"
+  style="border:0; border-radius:20px;"
+  loading="lazy"
+  allowfullscreen
+  src="https://www.google.com/maps?q=DINKES+P2KB+Sumenep&z=18&output=embed">
+</iframe>
+<a class="btn btn-success w-100 mt-3 fw-bold rounded-pill"
+   href="https://www.google.com/maps/search/?api=1&query=-7.0226622,113.8553012"
+   target="_blank">
+   <i class="bi bi-geo-alt me-2"></i> Buka di Google Maps
+</a>
+
+
+
         </div>
       </div>
       <div class="col-lg-5">
